@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5;url=https://crudekiss.itch.io/the-sinister-instinct">
     <title>Redirecting...</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            background-color: #000000;
             font-family: 'Roboto Mono', monospace;
-            background-color: #000;
             color: #807F80;
             text-align: center;
             display: flex;
@@ -19,42 +18,30 @@
             height: 100vh;
             overflow: hidden;
         }
-
         .container {
-            text-align: center;
-            position: relative;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            margin: 10px;
+            color: #807F80;
         }
-
-        .container h1 {
-            font-size: 2em;
+        h1 {
             margin: 0;
-            padding: 0;
+            font-size: 2em;
             color: #DA0020;
+            text-transform: uppercase;
         }
-
-        .container p {
+        p {
+            margin: 10px 0 0;
             font-size: 1.2em;
-            margin-top: 20px;
         }
-
-        .container a {
-            color: #DA0020;
-            text-decoration: none;
-            border-bottom: 1px solid #DA0020;
-            transition: color 0.3s, border-color 0.3s;
-        }
-
-        .container a:hover {
-            color: #FFFFFF;
-            border-color: #FFFFFF;
-        }
-        
         @media (max-width: 600px) {
-            .container h1 {
+            h1 {
                 font-size: 1.5em;
             }
-
-            .container p {
+            p {
                 font-size: 1em;
             }
         }
@@ -63,7 +50,12 @@
 <body>
     <div class="container">
         <h1>Redirecting...</h1>
-        <p>If you are not redirected automatically, <a href="https://crudekiss.itch.io/the-sinister-instinct">click here</a>.</p>
+        <p>If you are not redirected automatically, <a href="https://crudekiss.itch.io/the-sinister-instinct" style="color: #DA0020; text-decoration: none;">click here</a>.</p>
     </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = 'https://crudekiss.itch.io/the-sinister-instinct';
+        }, 3000); // Redirects after 3 seconds
+    </script>
 </body>
 </html>
