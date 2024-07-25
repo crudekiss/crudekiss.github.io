@@ -2,51 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="5;url=https://crudekiss.itch.io/the-sinister-instinct">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #807F80; /* Main text color */
+            background-color: black;
+            color: #807F80;
             font-family: 'Roboto Mono', monospace;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            justify-content: flex-start;
             height: 100vh;
-            text-align: center;
+            margin: 0;
             overflow: hidden;
         }
-        h1 {
-            font-size: 2rem;
-            margin: 0;
-        }
-        p {
-            font-size: 1rem;
-        }
-        a {
-            color: #DA0020; /* Link color */
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            p {
-                font-size: 0.875rem;
-            }
+        .message {
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <h1>Redirecting...</h1>
-        <p>If you are not redirected automatically, <a href="https://crudekiss.itch.io/the-sinister-instinct">click here</a>.</p>
-    </div>
+    <div class="message">Redirecting...</div>
+    <script>
+        window.location.href = 'https://crudekiss.itch.io/the-sinister-instinct';
+    </script>
 </body>
 </html>
