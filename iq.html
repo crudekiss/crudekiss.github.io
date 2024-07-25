@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live IQ Drop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            font-family: 'Roboto Mono', monospace;
+            color: #fff;
+            overflow: hidden;
+        }
+        #iqDisplay {
+            font-size: 3em;
+            opacity: 0;
+            transition: opacity 10s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div id="iqDisplay">92.000000000</div>
+
+    <script>
+        const startIQ = 92.000000000;
+        const endIQ = 84.000000000;
+        const startTime = new Date(1950, 0, 1).getTime();
+        const endTime = new Date(2110, 0, 1).getTime();
+        const totalSeconds = (endTime - startTime) / 1000;
+        const iqDropRate = (startIQ - endIQ) / totalSeconds;
+
+        function updateIQ() {
+            const now = new Date().getTime();
+            const elapsedTime = (now - startTime) / 1000;
+            const currentIQ = startIQ - (iqDropRate * elapsedTime);
+            document.getElementById('iqDisplay').innerText = currentIQ.toFixed(9);
+        }
+
+        setTimeout(() => {
+            document.getElementById('iqDisplay').style.opacity = 1;
+        }, 2000);
+
+        setInterval(updateIQ, 1000);
+    </script>
+</body>
+</html>
