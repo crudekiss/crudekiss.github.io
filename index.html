@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split Page with Text</title>
+    <meta http-equiv="refresh" content="5;url=https://crudekiss.itch.io/the-sinister-instinct">
+    <title>Redirecting...</title>
     <style>
-        html, body {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            width: 100%;
-        }
-        .container > div {
-            display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            width: 100%;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #000;
+            color: #807F80;
             text-align: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            line-height: 0; /* Remove extra space caused by line height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
-        .red {
-            background-color: red;
-            height: 33%;
+
+        .container {
+            text-align: center;
+            position: relative;
         }
-        .green {
-            background-color: green;
-            height: 34%;
+
+        .container h1 {
+            font-size: 2em;
+            margin: 0;
+            padding: 0;
+            color: #DA0020;
         }
-        .blue {
-            background-color: blue;
-            height: 33%;
+
+        .container p {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .container a {
+            color: #DA0020;
+            text-decoration: none;
+            border-bottom: 1px solid #DA0020;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .container a:hover {
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+        
+        @media (max-width: 600px) {
+            .container h1 {
+                font-size: 1.5em;
+            }
+
+            .container p {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="red">Red</div>
-        <div class="green">Green</div>
-        <div class="blue">Blue</div>
+        <h1>Redirecting...</h1>
+        <p>If you are not redirected automatically, <a href="https://crudekiss.itch.io/the-sinister-instinct">click here</a>.</p>
     </div>
 </body>
 </html>
