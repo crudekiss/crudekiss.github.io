@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Terminal</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #cfcfcf;
+            margin: 0;
+            padding: 0;
+        }
+        .terminal {
+            background-color: #000;
+            border: 1px solid #333;
+            width: 100%;
+            height: 90vh;
+            margin-top 5vh;
+            overflow: auto;
+            padding: 10px;
+        }
+        .input-line {
+            display: flex;
+        }
+        .input-line span {
+            color: teal;
+            margin-right: 5px;
+        }
+        .input-line input {
+            background: transparent;
+            border: none;
+            color: #cfcfcf;
+            width: 100%;
+            outline: none;
+        }
+        .input-line input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal" id="terminal">
+        <div id="output"></div>
+        <div class="input-line">
+            <span>></span>
+            <input type="text" id="input" autofocus>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('input');
+            const outputDiv = document.getElementById('output');
+            
+            function handleCommand(command) {
+                if (command === 'cls') {
+                    outputDiv.innerHTML = '';
+                } else if (command === 'help') {
+                    outputDiv.innerHTML += '<br><div>Available commands:</div><div>cls - Clear the screen</div><div>help - Show this help message</div><br>';
+                } else {
+                    outputDiv.innerHTML += `<div>Invalid command. Use 'help' to see available options.</div>`;
+                }
+                outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to the bottom
+            }
+            
+            inputField.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const command = inputField.value.trim();
+                    if (command) {
+                        outputDiv.innerHTML += `<div>[<span style="color: teal;">~</span>] ${command}</div>`;
+                        handleCommand(command);
+                        inputField.value = '';
+                    }
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
