@@ -14,30 +14,17 @@
         }
         .terminal {
             background-color: black;
-            border: 0;
+            border: 0px solid #333;
             width: 100%;
             height: 90vh;
             margin-top: 5vh;
-            overflow-y: scroll; /* Always allow vertical scrolling */
+            overflow: hidden; /* Hide scrollbars */
             padding-left: 15px;
             padding-right: 15px;
-            position: relative;
-        }
-        /* Hide scrollbar for WebKit browsers */
-        .terminal::-webkit-scrollbar {
-            display: none; /* Hides the scrollbar */
-        }
-        /* Hide scrollbar for Firefox */
-        .terminal {
-            scrollbar-width: none; /* Hides the scrollbar in Firefox */
-        }
-        /* Hide scrollbar for IE and Edge */
-        .terminal {
-            -ms-overflow-style: none; /* Hides the scrollbar in IE and Edge */
+            position: relative; /* Ensures scrollbars are properly handled */
         }
         .input-line {
             display: flex;
-            align-items: center;
         }
         .input-line span {
             color: teal;
