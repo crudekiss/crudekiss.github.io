@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Terminal</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars on the body */
+        }
+        #terminal {
+            padding-left: 20px;
+            height: 90vh;
+            margin-top: 5vh;
+            overflow-y: scroll; /* Allow vertical scrolling */
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+            display: flex;
+            flex-direction: column;
+        }
+        /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+        #terminal::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for Firefox */
+        #terminal {
+            scrollbar-width: none;
+        }
+        .command-line {
+            display: flex;
+        }
+        .command-line span {
+            color: #0f0;
+        }
+        .input {
+            color: #0f0;
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <div id="output"></div>
+        <div class="command-line">
+            <span>$ </span>
+            <input id="input" class="input" autofocus>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const terminal = document.getElementById('terminal');
+
+        const commands = {
+            hello: "Hello, world!",
+            date: new Date().toLocaleString(),
+            echo: (args) => args.join(' '),
+            cls: () => {
+                output.innerHTML = '';
+                terminal.scrollTop = terminal.scrollHeight; // Ensure it scrolls to the bottom
+            }
+        };
+
+        function handleCommand(command) {
+            const [cmd, ...args] = command.trim().split(/\s+/);
+            if (commands[cmd]) {
+                const result = typeof commands[cmd] === 'function' ? commands[cmd](args) : commands[cmd];
+                return result;
+            } else {
+                return `Command not found: ${cmd}`;
+            }
+        }
+
+        function processInput(e) {
+            if (e.key === 'Enter') {
+                const command = input.value;
+                const result = handleCommand(command);
+
+                if (command.trim() !== 'cls') { // Skip echoing `cls` command
+                    output.innerHTML += `<div><span>$ ${command}</span></div>`;
+                    output.innerHTML += `<div>${result}</div>`;
+                }
+
+                input.value = '';
+                
+                // Scroll to the bottom of the terminal
+                terminal.scrollTop = terminal.scrollHeight;
+
+                // Re-focus the input field
+                input.focus();
+            }
+        }
+
+        function handleFocus() {
+            input.focus();
+        }
+
+        // Set initial focus on page load
+        window.onload = handleFocus;
+
+        // Maintain focus if the window gains focus
+        window.addEventListener('focus', handleFocus, true);
+
+        // Re-focus the input field if it's blurred
+        input.addEventListener('blur', handleFocus);
+
+        input.addEventListener('keydown', processInput);
+    </script>
+</body>
+</html>
