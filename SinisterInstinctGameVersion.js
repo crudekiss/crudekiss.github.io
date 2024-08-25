@@ -1,1 +1,1 @@
-const latestGameVersion = "1.2.4";
+const latestGameVersion = "1.2.5";
