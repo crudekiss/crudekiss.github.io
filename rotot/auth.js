@@ -1,7 +1,5 @@
-// Utility function to get a formatted timestamp
-const getTimestamp = () => {
-  return new Date().toISOString(); // e.g., "2025-03-30T12:34:56.789Z"
-};
+// Utility function to get a compact timestamp
+const getTimestamp = () => new Date().toISOString().slice(11, 23); // e.g., "12:34:56.789"
 
 // Fetch and authorization logic
 fetch('https://crudekiss.github.io/rotot/auth.json')
@@ -18,32 +16,21 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
     // Check if the current URL matches any authorized prefix
     const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
-    // Professional console logging
-    const logLevel = isAuthorized ? 'info' : 'warn';
-    const statusMessage = isAuthorized ? 'Authorized' : 'Unauthorized';
-    const logDetails = {
-      timestamp: getTimestamp(),
-      level: logLevel,
-      message: `${statusMessage} access detected`,
-      url: currentUrl,
-      authorizedPrefixes: authorizedPrefixes
-    };
-
-    // Use console method based on authorization status
-    if (isAuthorized) {
-      console.info('[AUTH]', JSON.stringify(logDetails, null, 2));
-    } else {
-      console.warn('[AUTH]', JSON.stringify(logDetails, null, 2));
-    }
+    // Professional one-line console logging
+    const timestamp = getTimestamp();
+    const level = isAuthorized ? 'INFO' : 'WARN';
+    const status = isAuthorized ? 'Authorized' : 'Unauthorized';
+    const color = isAuthorized ? 'color: green' : 'color: orange';
+    console.log(
+      `%c[AUTH] ${timestamp} ${level} ${status} - URL: ${currentUrl}`,
+      color
+    );
   })
   .catch(error => {
-    // Professional error logging
-    const errorDetails = {
-      timestamp: getTimestamp(),
-      level: 'error',
-      message: 'Failed to perform authorization check',
-      url: window.location.href,
-      error: error.message
-    };
-    console.error('[AUTH]', JSON.stringify(errorDetails, null, 2));
+    // Professional one-line error logging
+    const timestamp = getTimestamp();
+    console.log(
+      `%c[AUTH] ${timestamp} ERROR Failed to check authorization - URL: ${window.location.href} - Error: ${error.message}`,
+      'color: red'
+    );
   });
