@@ -166,7 +166,7 @@ function loadScript(url) {
 // Load auth.js and then start preloading
 loadScript('https://crudekiss.github.io/rotot/auth.js')
   .then(() => {
-    console.log('auth.js loaded successfully');
+    console.log('Auth.js loaded successfully');
     startPreload(); // Start preloading after auth.js is loaded
   })
   .catch(error => {
