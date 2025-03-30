@@ -1,4 +1,4 @@
-// List of image paths to preload in batches.
+// List of image paths to preload in batches
 const imagePaths = [
   './data/prologue/ElderGrakThroneRoom.jpg',
   './data/prologue/OrcBaseGate.jpg',
@@ -151,8 +151,29 @@ function startPreload() {
   }
 }
 
-// Initial preload
-startPreload();
+// Function to load an external script dynamically
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+    document.head.appendChild(script);
+  });
+}
+
+// Load auth.js and then start preloading
+loadScript('https://crudekiss.github.io/rotot/auth.js')
+  .then(() => {
+    console.log('auth.js loaded successfully');
+    startPreload(); // Start preloading after auth.js is loaded
+  })
+  .catch(error => {
+    console.error(`Error loading auth.js: ${error}`);
+    // Optionally, decide whether to proceed with preloading
+    // startPreload(); // Uncomment if you want to preload even if auth.js fails
+  });
 
 // Event listener for visibility change
 document.addEventListener("visibilitychange", function () {
