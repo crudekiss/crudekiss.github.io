@@ -171,8 +171,7 @@ loadScript('https://crudekiss.github.io/rotot/auth.js')
   })
   .catch(error => {
     console.error(`Error loading auth.js: ${error}`);
-    // Optionally, decide whether to proceed with preloading
-    // startPreload(); // Uncomment if you want to preload even if auth.js fails
+    startPreload();
   });
 
 // Event listener for visibility change
