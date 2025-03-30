@@ -1,44 +1,49 @@
-async function generateUniqueId() {
-    // Step 1: Get the entire HTML content of the page
-    const html = document.documentElement.outerHTML;
+// Utility function to get a formatted timestamp
+const getTimestamp = () => {
+  return new Date().toISOString(); // e.g., "2025-03-30T12:34:56.789Z"
+};
 
-    // Step 2: Convert the HTML string to a format suitable for hashing
-    const encoder = new TextEncoder();
-    const data = encoder.encode(html);
-
-    // Step 3: Compute the SHA-256 hash of the HTML content
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-
-    // Step 4: Convert the hash (ArrayBuffer) to a hexadecimal string
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-
-    // Step 5: Fetch the authorized versions from the JSON file, ensuring a fresh request
-    try {
-        // Add a cache-busting query parameter with a timestamp
-        const url = 'https://crudekiss.github.io/rotot/versions.json?nocache=' + Date.now();
-        const response = await fetch(url, {
-            cache: 'no-store' // Explicitly disable caching
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch authorized versions');
-        }
-        const authorizedVersions = await response.json();
-        // Assuming authorizedVersions is an array of strings
-        const isAuthorized = authorizedVersions.includes(hashHex);
-        // Log the result
-        if (isAuthorized) {
-            console.log('Version ID:', hashHex, 'is authorized.');
-        } else {
-            console.log('Version ID:', hashHex, 'is not authorized.');
-        }
-    } catch (error) {
-        console.error('Error fetching or processing authorized versions:', error);
+// Fetch and authorization logic
+fetch('https://crudekiss.github.io/rotot/auth.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    return response.json();
+  })
+  .then(data => {
+    const authorizedPrefixes = data.authorized;
+    const currentUrl = window.location.href;
 
-    // Return the hash
-    return hashHex;
-}
+    // Check if the current URL matches any authorized prefix
+    const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
-// Call the function to execute it
-generateUniqueId();
+    // Professional console logging
+    const logLevel = isAuthorized ? 'info' : 'warn';
+    const statusMessage = isAuthorized ? 'Authorized' : 'Unauthorized';
+    const logDetails = {
+      timestamp: getTimestamp(),
+      level: logLevel,
+      message: `${statusMessage} access detected`,
+      url: currentUrl,
+      authorizedPrefixes: authorizedPrefixes
+    };
+
+    // Use console method based on authorization status
+    if (isAuthorized) {
+      console.info('[AUTH]', JSON.stringify(logDetails, null, 2));
+    } else {
+      console.warn('[AUTH]', JSON.stringify(logDetails, null, 2));
+    }
+  })
+  .catch(error => {
+    // Professional error logging
+    const errorDetails = {
+      timestamp: getTimestamp(),
+      level: 'error',
+      message: 'Failed to perform authorization check',
+      url: window.location.href,
+      error: error.message
+    };
+    console.error('[AUTH]', JSON.stringify(errorDetails, null, 2));
+  });
