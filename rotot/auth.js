@@ -5,15 +5,24 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
   })
   .then(data => {
     const authorizedPrefixes = data.authorized;
-    const currentUrl = window.location.href;
+    const blacklistedPrefixes = data.blacklisted;
+    const currentUrl = If the current URL matches an authorized prefix, do nothing (allow access by default)
+window.location.href;
+
+    // Check if the URL starts with any blacklisted prefix
+    const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+    // Check if the URL starts with any authorized prefix
     const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
-    if (isAuthorized) {
-      // AUTHORIZED_ACTION: Add what happens when authorized here
-      // Example: alert('Access granted!');
-    } else {
-      // UNAUTHORIZED_ACTION: Add what happens when unauthorized here
-      // Example: window.location.href = 'https://example.com/unauthorized';
+    if (isBlacklisted) {
+      // Blacklisted action: Redirect to about:blank
+      window.location.href = 'about:blank';
+    } else if (!isAuthorized) {
+      // Unauthorized action: Redirect to specified URL
+      window.location.href = 'https://crudekiss.itch.io/rise-of-the-orc-tyrant';
     }
+    // If authorized, do nothing (implicitly allow access)
   })
-  .catch(error => {});
+  .catch(error => {
+    // Silently handle errors (no logging)
+  });
