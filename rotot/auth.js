@@ -6,8 +6,7 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
   .then(data => {
     const authorizedPrefixes = data.authorized;
     const blacklistedPrefixes = data.blacklisted;
-    const currentUrl = If the current URL matches an authorized prefix, do nothing (allow access by default)
-window.location.href;
+    const currentUrl = window.location.href; // Fixed: Properly defined currentUrl
 
     // Check if the URL starts with any blacklisted prefix
     const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
