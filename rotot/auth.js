@@ -13,8 +13,10 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
 
     if (isBlacklisted) {
       State.variables.auth = "blacklisted";
+      window.location.href = 'about:blank';
     } else if (!isAuthorized) {
       State.variables.auth = "unauthorized";
+      // window.location.href = 'about:blank';
     } else {
       State.variables.auth = "authorized";
     }
