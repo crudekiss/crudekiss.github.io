@@ -18,7 +18,7 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
       window.location.href = 'about:blank';
     } else if (!isAuthorized) {
       // Unauthorized action: Redirect to specified URL
-      window.location.href = 'about:blank';
+      // window.location.href = 'about:blank';
     }
     // If authorized, do nothing (implicitly allow access)
   })
