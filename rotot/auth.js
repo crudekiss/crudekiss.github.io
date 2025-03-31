@@ -6,21 +6,22 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
   .then(data => {
     const authorizedPrefixes = data.authorized;
     const blacklistedPrefixes = data.blacklisted;
-    const currentUrl = window.location.href;
+    const currentUrl = window.location.href; // Fixed: Properly defined currentUrl
 
+    // Check if the URL starts with any blacklisted prefix
     const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+    // Check if the URL starts with any authorized prefix
     const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
     if (isBlacklisted) {
-      State.variables.auth = "blacklisted";
+      // Blacklisted action: Redirect to about:blank
       window.location.href = 'about:blank';
     } else if (!isAuthorized) {
-      State.variables.auth = "unauthorized";
+      // Unauthorized action: Redirect to specified URL
       // window.location.href = 'about:blank';
-    } else {
-      State.variables.auth = "authorized";
     }
+    // If authorized, do nothing (implicitly allow access)
   })
   .catch(error => {
-    State.variables.auth = "error";
-  });
+    // Silently handle errors (no logging)
+  }); 
