@@ -1,31 +1,45 @@
-fetch('https://crudekiss.github.io/rotot/auth.json')
-  .then(response => {
-    // Check if the response is successful (status code 200)
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    return response.json();
-  })
-  .then(data => {
-    // Extract authorized and blacklisted prefixes from the fetched data
-    const authorizedPrefixes = data.authorized;
-    const blacklistedPrefixes = data.blacklisted;
-    const currentUrl = window.location.href; // Get the current page URL
+(function () {
+  const ckeStatus = 'ckestatus';  // Key to store the status in localStorage
+  const checkInterval = 120 * 1000;    // 120 seconds in milliseconds
+  const jsonUrl = 'https://crudekiss.github.io/rotot/auth.json'; // URL for the JSON data
 
-    // Check if the current URL starts with any blacklisted prefix
-    const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+  // Function to fetch and process the JSON data
+  function fetchAndProcessJson() {
+    fetch(jsonUrl)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        const authorizedPrefixes = data.authorized;
+        const blacklistedPrefixes = data.blacklisted;
+        const currentUrl = window.location.href; // Get the current page URL
 
-    // Check if the current URL starts with any authorized prefix
-    const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+        // Check if the current URL starts with any blacklisted or authorized prefix
+        const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+        const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
-    if (isBlacklisted) {
-      // If the URL is blacklisted, redirect to a blank page to block access
-      window.location.href = 'about:blank';
-    } else if (!isAuthorized) {
-      // If the URL is not authorized, potentially redirect to a fallback URL (currently commented out)
-      // window.location.href = 'about:blank'; // Example: Uncomment to enforce redirection
-    }
-    // If the URL is authorized, do nothing (implicitly allow access)
-  })
-  .catch(error => {
-    // Handle any errors silently without logging or showing alerts
-    // (e.g., if the JSON file cannot be fetched or parsed)
-  });
+        // Set the status based on URL checks and store it in localStorage
+        if (isBlacklisted) {
+          localStorage.setItem(ckeStatus, 'blacklist');
+          window.location.href = 'about:blank';  // Redirect to a blank page if blacklisted
+        } else if (isAuthorized) {
+          localStorage.setItem(ckeStatus, 'authorize');
+        } else {
+          localStorage.setItem(ckeStatus, 'unauthorize');
+          // Uncomment the next line if you want to redirect unauthorized URLs
+          // window.location.href = 'about:blank';
+        }
+      })
+      .catch(error => {
+        // Handle any errors during the fetch process silently
+        console.error("Error fetching JSON data:", error);
+      });
+  }
+
+  // Run the fetchAndProcessJson function immediately when the script loads
+  fetchAndProcessJson();
+
+  // Set an interval to refresh the JSON data every 120 seconds (2 minutes)
+  setInterval(fetchAndProcessJson, checkInterval);
+})();
