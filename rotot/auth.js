@@ -1,6 +1,12 @@
-fetch('https://crudekiss.github.io/rotot/auth.json')
+// Function to fetch the latest status and update localStorage
+function checkAuthorizationStatus() {
+  fetch('https://crudekiss.github.io/rotot/auth.json', {
+    method: 'GET',
+    headers: {
+      'Cache-Control': 'no-cache', // Ensure fresh data without caching
+    }
+  })
   .then(response => {
-    // Check if the response is successful (status code 200)
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return response.json();
   })
@@ -12,20 +18,30 @@ fetch('https://crudekiss.github.io/rotot/auth.json')
 
     // Check if the current URL starts with any blacklisted prefix
     const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
-
     // Check if the current URL starts with any authorized prefix
     const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
 
+    // Set the ckeStatus variable in localStorage based on the conditions
     if (isBlacklisted) {
-      // If the URL is blacklisted, redirect to a blank page to block access
-      window.location.href = 'about:blank';
-    } else if (!isAuthorized) {
-      // If the URL is not authorized, potentially redirect to a fallback URL (currently commented out)
-      // window.location.href = 'about:blank'; // Example: Uncomment to enforce redirection
+      localStorage.setItem('ckeStatus', 'blacklisted');
+      window.location.href = 'about:blank'; // Redirect to a blank page to block access
+    } else if (isAuthorized) {
+      localStorage.setItem('ckeStatus', 'authorized');
+      // If authorized, allow access (do nothing, implicitly allow access)
+    } else {
+      localStorage.setItem('ckeStatus', 'unauthorized');
+      // If the URL is not authorized, you could implement a redirect or warning here
+      // Example: window.location.href = 'about:blank';
     }
-    // If the URL is authorized, do nothing (implicitly allow access)
   })
   .catch(error => {
-    // Handle any errors silently without logging or showing alerts
-    // (e.g., if the JSON file cannot be fetched or parsed)
+    // Handle any errors silently without logging
+    console.error('Authorization check failed:', error); // Optionally log errors for debugging
   });
+}
+
+// Initial check on page load
+checkAuthorizationStatus();
+
+// Set up a recurring check every 120 seconds (120,000 milliseconds)
+setInterval(checkAuthorizationStatus, 120000);
