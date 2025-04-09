@@ -1,21 +1,24 @@
 // List of image paths to preload in batches
 const imagePaths = [
+  // Prologue
   './data/prologue/ElderGrakThroneRoom.jpg',
   './data/prologue/OrcBaseGate.jpg',
+
+  // Location
   './data/location/path1.jpg',
-  './data/location/lake1.jpg',
   './data/location/averhalcity1.jpg',
-  './data/location/averhalcitygate1.jpg',
   './data/location/averhalcitydocks1.jpg',
+  './data/location/averhalcitygate1.jpg',
   './data/location/averhalcitymarket1.jpg',
+  './data/location/brothellobby1.jpg',
+  './data/location/forest1.jpg',
+  './data/location/forest2.jpg',
+  './data/location/foresthut1.jpg',
+  './data/location/lake1.jpg',
+  './data/location/lakewash1.jpg',
   './data/location/woodenbowl1.jpg',
-  './data/nsfw/path_elf_collar1.jpg',
-  './data/nsfw/path_elf_collar2.jpg',
-  './data/nsfw/path_elf_collar3.jpg',
-  './data/nsfw/path_elf_collar4.jpg',
-  './data/nsfw/path_elf_collar5.jpg',
-  './data/nsfw/forest_elf_collar1.jpg',
-  './data/nsfw/path_elf_bj_assup1.jpg',
+
+  // NSFW
   './data/nsfw/bed_elf_blowjob1.jpg',
   './data/nsfw/bed_elf_blowjob2.jpg',
   './data/nsfw/bed_elf_blowjob3.jpg',
@@ -33,6 +36,14 @@ const imagePaths = [
   './data/nsfw/bed_elf_rimjob4.jpg',
   './data/nsfw/bed_elf_rimjob5.jpg',
   './data/nsfw/bed_elf_rimjob6.jpg',
+  './data/nsfw/forest_elf_collar1.jpg',
+  './data/nsfw/forest_elf_collar2.jpg',
+  './data/nsfw/forest_elf_collar3.jpg',
+  './data/nsfw/forest_elf_collar4.jpg',
+  './data/nsfw/forest_elf_collar5.jpg',
+  './data/nsfw/path_elf_bj_assup1.jpg',
+  './data/nsfw/path_elf_collar1.jpg',
+  './data/nsfw/path_elf_collar2.jpg',
 ];
 
 // Function to get just the filename from a path
