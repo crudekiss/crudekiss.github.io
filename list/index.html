@@ -69,7 +69,7 @@
     ];
 
     document.querySelectorAll('.site-card').forEach(card => {
-      card.addEventListener('click', (e) => {
+      card.addEventListener('click', async (e) => {
         e.preventDefault();
         const base = card.dataset.url;
         const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)];
@@ -81,6 +81,15 @@
           finalUrl = `${base}${encoded}/?`;
         } else {
           finalUrl = `${base}${encoded}${end}`;
+        }
+
+        // Request full screen before redirecting
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          try {
+            await document.documentElement.requestFullscreen();
+          } catch (err) {
+            console.error("Error attempting to enable full-screen mode:", err);
+          }
         }
 
         window.open(finalUrl, '_blank');
