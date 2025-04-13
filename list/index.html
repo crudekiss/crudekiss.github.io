@@ -61,37 +61,34 @@
   </div>
 
   <script>
-    const searchKeywords = [
-      "solo", "lesbian", "anal", "big tits", "creampie",
-      "blowjob", "public", "vr", "hardcore", "mature",
-      "goth", "cosplay", "teen", "dirty talk", "squirting",
-      "domination", "pov", "fetish", "threesome", "massage"
+    const soloSearchKeywords = [
+      "solo", "female solo", "masturbation", "lesbian", "dildo solo", "pussy play",
+      "clit play", "girl masturbating", "fingering", "toy solo", "solo orgasm",
+      "goddess worship", "female only", "solo tease", "striptease", "mirror play",
+      "soft solo", "solo pov", "nude yoga", "solo shower"
     ];
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    const shuffledKeywords = shuffle([...searchKeywords]);
     const cards = document.querySelectorAll('.site-card');
 
-    cards.forEach((card, index) => {
+    cards.forEach(card => {
       const base = card.dataset.url;
-      const keyword = encodeURIComponent(shuffledKeywords[index] || "solo");
 
       card.addEventListener('click', e => {
         e.preventDefault();
+        const keyword = encodeURIComponent(
+          soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)]
+        );
+
         let url = base;
+
         if (base.includes("porn.com/") && !base.includes("?")) {
-          // Porn.com has a unique structure like /solo-porn
-          url = `${base}${keyword}-porn`;
+          url = `${base}${keyword}-porn/`;
+        } else if (base.includes("spankbang.com/s/")) {
+          url = `${base}${keyword}/?`;
         } else {
           url = `${base}${keyword}`;
         }
+
         window.open(url, '_blank');
       });
     });
