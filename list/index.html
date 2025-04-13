@@ -68,28 +68,22 @@
       "soft solo", "solo pov", "nude yoga", "solo shower"
     ];
 
-    const cards = document.querySelectorAll('.site-card');
-
-    cards.forEach(card => {
-      const base = card.dataset.url;
-
-      card.addEventListener('click', e => {
+    document.querySelectorAll('.site-card').forEach(card => {
+      card.addEventListener('click', (e) => {
         e.preventDefault();
-        const keyword = encodeURIComponent(
-          soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)]
-        );
+        const base = card.dataset.url;
+        const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)];
+        let finalUrl = base;
 
-        let url = base;
-
-        if (base.includes("porn.com/") && !base.includes("?")) {
-          url = `${base}${keyword}-porn/`;
+        if (base.includes("porn.com/")) {
+          finalUrl = `${base}${keyword.replace(/\s+/g, '-')}-porn`;
         } else if (base.includes("spankbang.com/s/")) {
-          url = `${base}${keyword}/?`;
+          finalUrl = `${base}${encodeURIComponent(keyword)}/?`;
         } else {
-          url = `${base}${keyword}`;
+          finalUrl = `${base}${encodeURIComponent(keyword)}`;
         }
 
-        window.open(url, '_blank');
+        window.open(finalUrl, '_blank');
       });
     });
   </script>
