@@ -5,8 +5,8 @@ setlocal EnableDelayedExpansion
 set "downloadDir=%USERPROFILE%\Downloads"
 
 :: Min and max delay between runs (in seconds)
-set "minDelay=1"
-set "maxDelay=3"
+set "minDelay=1350"
+set "maxDelay=2250"
 
 :loop
 :: === Random delay before each loop iteration ===
