@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Set character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Page title -->
   <title>[CK]</title>
+  
   <style>
+    /* Reset default browser styles and set box-sizing */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
+    /* Style the body with dark background, centered content */
     body {
       background-color: #111;
       font-family: Arial, sans-serif;
@@ -19,6 +26,8 @@
       justify-content: center;
       min-height: 100vh;
     }
+
+    /* Define grid layout for the cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(180px, 1fr));
@@ -27,6 +36,8 @@
       height: 100vh;
       padding: 16px;
     }
+
+    /* Style for individual site cards */
     .site-card {
       display: flex;
       align-items: center;
@@ -38,14 +49,19 @@
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
     }
+
+    /* Hover effect for site cards */
     .site-card:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
+
 <body>
+  <!-- Grid of links to various adult websites -->
   <div class="grid">
+    <!-- Each anchor tag represents a website with unique background color -->
     <a href="#" class="site-card" data-url="https://www.pornhub.com/video/search?search=" style="background: #ff9900; color: #000;">Pornhub</a>
     <a href="#" class="site-card" data-url="https://www.xvideos.com/?k=" style="background: #b71c1c; color: #fff;">XVideos</a>
     <a href="#" class="site-card" data-url="https://xhamster.com/search.php?q=" style="background: #2c2c2c; color: #fff;">xHamster</a>
@@ -61,6 +77,7 @@
   </div>
 
   <script>
+    // Array of solo-themed keywords to use in search
     const soloSearchKeywords = [
       "solo", "female solo", "masturbation", "lesbian", "dildo solo", "pussy play",
       "clit play", "girl masturbating", "fingering", "toy solo", "solo orgasm",
@@ -68,30 +85,25 @@
       "soft solo", "solo pov", "nude yoga", "solo shower", "solo camgirl"
     ];
 
+    // Add click event listeners to each site card
     document.querySelectorAll('.site-card').forEach(card => {
-      card.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const base = card.dataset.url;
-        const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)];
-        const encoded = encodeURIComponent(keyword);
-        const end = card.dataset.end || "";
+      card.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+
+        const base = card.dataset.url; // Base search URL for the site
+        const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)]; // Pick a random keyword
+        const encoded = encodeURIComponent(keyword); // Encode keyword for URL safety
+        const end = card.dataset.end || ""; // Optional URL suffix
         let finalUrl = "";
 
+        // Special handling for SpankBang URL format
         if (base.includes("spankbang.com/s/")) {
           finalUrl = `${base}${encoded}/?`;
         } else {
           finalUrl = `${base}${encoded}${end}`;
         }
 
-        // Request full screen before redirecting
-        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-          try {
-            await document.documentElement.requestFullscreen();
-          } catch (err) {
-            console.error("Error attempting to enable full-screen mode:", err);
-          }
-        }
-
+        // Open the final URL in a new tab
         window.open(finalUrl, '_blank');
       });
     });
