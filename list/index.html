@@ -55,17 +55,17 @@
     <a href="#" class="site-card" data-url="https://www.tube8.com/searches.html/?q=" style="background: #1565c0; color: #fff;">Tube8</a>
     <a href="#" class="site-card" data-url="https://www.tnaflix.com/search?what=" style="background: #c62828; color: #fff;">Tnaflix</a>
     <a href="#" class="site-card" data-url="https://hclips.com/search/1/?s=" style="background: #039be5; color: #fff;">HClips</a>
-    <a href="#" class="site-card" data-url="https://www.porn.com/" style="background: #6a1b9a; color: #fff;">Porn.com</a>
-    <a href="#" class="site-card" data-url="https://badoinkvr.com/vrpornvideos/search/" style="background: #8e24aa; color: #fff;">BadoinkVR</a>
     <a href="#" class="site-card" data-url="https://www.drtuber.com/search/videos/" style="background: #43a047; color: #fff;">DrTuber</a>
+    <a href="#" class="site-card" data-url="https://www.xnxx.com/search/" style="background: #e53935; color: #fff;">XNXX</a>
+    <a href="#" class="site-card" data-url="https://www.heavy-r.com/search/" data-end=".html" style="background: #455a64; color: #fff;">Heavy-R</a>
   </div>
 
   <script>
     const soloSearchKeywords = [
       "solo", "female solo", "masturbation", "lesbian", "dildo solo", "pussy play",
       "clit play", "girl masturbating", "fingering", "toy solo", "solo orgasm",
-      "goddess worship", "female only", "solo tease", "striptease", "mirror play",
-      "soft solo", "solo pov", "nude yoga", "solo shower"
+      "goddess worship", "solo tease", "striptease", "mirror play",
+      "soft solo", "solo pov", "nude yoga", "solo shower", "solo camgirl"
     ];
 
     document.querySelectorAll('.site-card').forEach(card => {
@@ -73,14 +73,14 @@
         e.preventDefault();
         const base = card.dataset.url;
         const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)];
-        let finalUrl = base;
+        const encoded = encodeURIComponent(keyword);
+        const end = card.dataset.end || "";
+        let finalUrl = "";
 
-        if (base.includes("porn.com/")) {
-          finalUrl = `${base}${keyword.replace(/\s+/g, '-')}-porn`;
-        } else if (base.includes("spankbang.com/s/")) {
-          finalUrl = `${base}${encodeURIComponent(keyword)}/?`;
+        if (base.includes("spankbang.com/s/")) {
+          finalUrl = `${base}${encoded}/?`;
         } else {
-          finalUrl = `${base}${encodeURIComponent(keyword)}`;
+          finalUrl = `${base}${encoded}${end}`;
         }
 
         window.open(finalUrl, '_blank');
