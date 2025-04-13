@@ -32,40 +32,83 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 0;
       font-weight: bold;
       font-size: 1.1rem;
       text-align: center;
       text-decoration: none;
-      transition: transform 0.2s ease; /* Smooth hover animation */
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
     }
     .site-card:hover {
-      transform: scale(1.1); /* Slightly larger on hover */
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
 <body>
   <div class="grid">
-    <a href="https://www.pornhub.com" class="site-card" style="background: #ff9000; color: #000000;">Pornhub</a>
-    <a href="https://www.xvideos.com" class="site-card" style="background: #b70000; color: #ffffff;">XVideos</a>
-    <a href="https://www.xhamster.com" class="site-card" style="background: #1a1a1a; color: #ffffff;">xHamster</a>
-    <a href="https://www.youporn.com" class="site-card" style="background: #ff4081; color: #ffffff;">YouPorn</a>
-    <a href="https://www.redtube.com" class="site-card" style="background: #d00000; color: #ffffff;">RedTube</a>
-    <a href="https://www.tube8.com" class="site-card" style="background: #2b2b2b; color: #ffffff;">Tube8</a>
-    <a href="https://www.spankbang.com" class="site-card" style="background: #000000; color: #ffffff;">SpankBang</a>
-    <a href="https://www.porn.com" class="site-card" style="background: #e63946; color: #ffffff;">Porn.com</a>
-    <a href="https://www.eporner.com" class="site-card" style="background: #0288d1; color: #ffffff;">Eporner</a>
-    <a href="https://www.hclips.com" class="site-card" style="background: #ff5722; color: #ffffff;">HClips</a>
-    <a href="https://www.txxx.com" class="site-card" style="background: #4a148c; color: #ffffff;">TXXX</a>
-    <a href="https://www.pornhat.com" class="site-card" style="background: #c2185b; color: #ffffff;">PornHat</a>
-    <a href="https://www.pornmd.com" class="site-card" style="background: #1976d2; color: #ffffff;">PornMD</a>
-    <a href="https://www.fux.com" class="site-card" style="background: #d81b60; color: #ffffff;">Fux</a>
-    <a href="https://www.realitykings.com" class="site-card" style="background: #26a69a; color: #ffffff;">Reality Kings</a>
-    <a href="https://www.naughtyamerica.com" class="site-card" style="background: #b71c1c; color: #ffffff;">Naughty America</a>
-    <a href="https://www.fakehub.com" class="site-card" style="background: #388e3c; color: #ffffff;">FakeHub</a>
-    <a href="https://www.mypornmotion.com" class="site-card" style="background: #7b1fa2; color: #ffffff;">MyPornMotion</a>
-    <a href="https://www.slutload.com" class="site-card" style="background: #f06292; color: #ffffff;">SlutLoad</a>
-    <a href="https://www.porntrex.com" class="site-card" style="background: #01579b; color: #ffffff;">PornTrex</a>
+    <a href="#" class="site-card" data-search-base="https://www.pornhub.com/video/search?search=" style="background: #ff9900; color: #000;">Pornhub</a>
+    <a href="#" class="site-card" data-search-base="https://www.xvideos.com/?k=" style="background: #b71c1c; color: #fff;">XVideos</a>
+    <a href="#" class="site-card" data-search-base="https://xhamster.com/search.php?q=" style="background: #2c2c2c; color: #fff;">xHamster</a>
+    <a href="#" class="site-card" data-search-base="https://www.redtube.com/search?search=" style="background: #d32f2f; color: #fff;">RedTube</a>
+    <a href="#" class="site-card" data-search-base="https://www.youporn.com/search/?query=" style="background: #e91e63; color: #fff;">YouPorn</a>
+    <a href="#" class="site-card" data-search-base="https://spankbang.com/s/" style="background: #000000; color: #fff;">SpankBang</a>
+    <a href="#" class="site-card" data-search-base="https://www.tube8.com/search?q=" style="background: #1565c0; color: #fff;">Tube8</a>
+    <a href="#" class="site-card" data-search-base="https://www.tnaflix.com/search?q=" style="background: #c62828; color: #fff;">Tnaflix</a>
+    <a href="#" class="site-card" data-search-base="https://www.xnxx.com/search/" style="background: #e53935; color: #fff;">XNXX</a>
+    <a href="#" class="site-card" data-search-base="https://www.hclips.com/search?q=" style="background: #039be5; color: #fff;">HClips</a>
+    <a href="#" class="site-card" data-search-base="https://www.porn.com/search?search_term=" style="background: #6a1b9a; color: #fff;">Porn.com</a>
+    <a href="#" class="site-card" data-search-base="https://www.eporner.com/search/?q=" style="background: #00897b; color: #fff;">Eporner</a>
+    <a href="#" class="site-card" data-search-base="https://motherless.com/search?q=" style="background: #424242; color: #fff;">Motherless</a>
+    <a href="#" class="site-card" data-search-base="https://www.badoinkvr.com/search/?q=" style="background: #8e24aa; color: #fff;">BadoinkVR</a>
+    <a href="#" class="site-card" data-search-base="https://www.spankwire.com/tour/search?q=" style="background: #fb8c00; color: #fff;">SpankWire</a>
+    <a href="#" class="site-card" data-search-base="https://www.drtuber.com/search/?q=" style="background: #43a047; color: #fff;">DrTuber</a>
+    <a href="#" class="site-card" data-search-base="https://www.erotube.com/search/?q=" style="background: #d81b60; color: #fff;">Erotube</a>
+    <a href="#" class="site-card" data-search-base="https://www.fapdu.com/search/?q=" style="background: #616161; color: #fff;">Fapdu</a>
+    <a href="#" class="site-card" data-search-base="https://www.pornhd.com/search?search=" style="background: #283593; color: #fff;">PornHD</a>
+    <a href="#" class="site-card" data-search-base="https://www.xtapes.com/search?q=" style="background: #1e88e5; color: #fff;">XTapes</a>
   </div>
+  
+  <script>
+    // 20 unique search keywords for each of the 20 sites
+    const searchKeywords = [
+      "solo", "amateur", "teen", "blonde", "brunette",
+      "anal", "lesbian", "hardcore", "masturbation", "ass",
+      "big+boobs", "oral", "mature", "jav", "bbw",
+      "bdsm", "creampie", "gangbang", "cumshot", "cosplay"
+    ];
+    
+    // Retrieve all site cards.
+    const siteCards = document.querySelectorAll('.site-card');
+    
+    // Assign each a unique random keyword from the list.
+    // We shuffle a copy of the keywords array to guarantee uniqueness.
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    
+    const randomizedKeywords = shuffleArray([...searchKeywords]);
+    
+    siteCards.forEach((card, index) => {
+      // Get the keyword for this card (if not enough, default to "solo").
+      const keyword = randomizedKeywords[index] || "solo";
+      
+      // Set a click event on each card.
+      card.addEventListener('click', function(e) {
+        // Prevent default navigation.
+        e.preventDefault();
+        // Retrieve the search base URL from the data attribute.
+        const baseURL = card.getAttribute('data-search-base');
+        // Construct the full URL.
+        const searchURL = baseURL + encodeURIComponent(keyword);
+        // Open the URL in a new tab.
+        window.open(searchURL, '_blank');
+      });
+    });
+  </script>
 </body>
 </html>
