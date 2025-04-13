@@ -1,3 +1,4 @@
+start /max https://crudekiss.github.io/list/
 @echo off
 setlocal EnableDelayedExpansion
 
