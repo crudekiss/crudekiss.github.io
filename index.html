@@ -1,32 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <style>
-        body {
-            background-color: black;
-            color: #807F80;
-            font-family: 'Roboto Mono', monospace;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-        .message {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Gradient Buttons</title>
+
+  <!-- Black mobile top bar -->
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Roboto Mono Bold -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .button {
+      transition: transform 0.35s ease-in-out, box-shadow 0.35s ease-in-out;
+    }
+
+    .button:hover {
+      transform: scale(1.03);
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2), 0px 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .button-text {
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+  </style>
 </head>
-<body>
-    <div class="message">Redirecting...</div>
-    <script>
-        window.location.href = 'https://crudekiss.itch.io/';
-    </script>
+<body class="h-screen w-screen m-0 p-0 flex items-center justify-center bg-black">
+  
+  <div class="w-full h-full md:w-[75vw] md:h-[75vh] md:max-w-[999px] md:max-h-[700px] p-4 box-border">
+    <div class="grid grid-cols-1 grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-6 h-full w-full">
+      
+      <!-- Our Games -->
+      <a href="https://crudekiss.itch.io/" target="_blank" class="button bg-gradient-to-b from-lime-400 to-black rounded-2xl flex items-start justify-start p-6 text-[1.8rem] sm:text-3xl lg:text-4xl font-bold w-full h-full">
+        <span class="button-text">Our<br>Games</span>
+      </a>
+      
+      <!-- Discord Community -->
+      <a href="https://discord.gg/KzZ44NKZrY" target="_blank" class="button bg-gradient-to-b from-indigo-500 to-black rounded-2xl flex items-start justify-start p-6 text-[1.8rem] sm:text-3xl lg:text-4xl font-bold w-full h-full">
+        <span class="button-text">Discord<br>Community</span>
+      </a>
+      
+      <!-- Patreon -->
+      <a href="https://www.patreon.com/c/crudekiss/membership" target="_blank" class="button bg-gradient-to-b from-red-500 to-black rounded-2xl flex items-start justify-start p-6 text-2xl sm:text-3xl lg:text-4xl font-bold w-full h-full">
+        <span class="button-text">Patreon</span>
+      </a>
+      
+      <!-- Contact -->
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeI_MN3o5AdehFV_eanQYysmeUQyA9j02j8a8_ut9VBlk8EDQ/viewform" target="_blank" class="button bg-gradient-to-b from-gray-400 to-black rounded-2xl flex items-start justify-start p-6 text-2xl sm:text-3xl lg:text-4xl font-bold w-full h-full">
+        <span class="button-text">Contact</span>
+      </a>
+      
+    </div>
+  </div>
+
 </body>
 </html>
