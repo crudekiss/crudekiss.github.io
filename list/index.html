@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Set character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- Page title -->
+  <meta name="theme-color" content="#000000" />
   <title>[CK]</title>
-  
+
+  <!-- Roboto Mono Bold -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
   <style>
-    /* Reset default browser styles and set box-sizing */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Style the body with dark background, centered content */
     body {
-      background-color: #111;
-      font-family: Arial, sans-serif;
+      background-color: #000;
+      font-family: 'Roboto Mono', monospace;
       color: white;
       display: flex;
       align-items: center;
@@ -27,91 +26,114 @@
       min-height: 100vh;
     }
 
-    /* Define grid layout for the cards */
     .grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(180px, 1fr));
       gap: 16px;
       width: 100vw;
-      height: 100vh;
       padding: 16px;
     }
 
-    /* Style for individual site cards */
+    @media (max-width: 767px) {
+      .grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 50vh;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        grid-auto-rows: 1fr;
+        height: 100vh;
+      }
+    }
+
     .site-card {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      font-size: 2.1rem;
       text-align: center;
       text-decoration: none;
-      transition: transform 0.3s, box-shadow 0.3s;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 2.1rem;
+      transition: transform 0.35s ease-in-out, box-shadow 0.35s ease-in-out;
       cursor: pointer;
     }
 
-    /* Hover effect for site cards */
     .site-card:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
 
 <body>
-  <!-- Grid of links to various adult websites -->
-  <div class="grid">
-    <!-- Each anchor tag represents a website with unique background color -->
-    <a href="#" class="site-card" data-url="https://www.pornhub.com/video/search?search=" style="background: #ff9900; color: #000;">Pornhub</a>
-    <a href="#" class="site-card" data-url="https://www.xvideos.com/?k=" style="background: #b71c1c; color: #fff;">XVideos</a>
-    <a href="#" class="site-card" data-url="https://xhamster.com/search.php?q=" style="background: #2c2c2c; color: #fff;">xHamster</a>
-    <a href="#" class="site-card" data-url="https://www.redtube.com/?search=" style="background: #d32f2f; color: #fff;">RedTube</a>
-    <a href="#" class="site-card" data-url="https://www.youporn.com/search/?query=" style="background: #e91e63; color: #fff;">YouPorn</a>
-    <a href="#" class="site-card" data-url="https://www.spankbang.com/s/" style="background: #000000; color: #fff;">SpankBang</a>
-    <a href="#" class="site-card" data-url="https://www.tube8.com/searches.html/?q=" style="background: #1565c0; color: #fff;">Tube8</a>
-    <a href="#" class="site-card" data-url="https://www.tnaflix.com/search?what=" style="background: #c62828; color: #fff;">Tnaflix</a>
-    <a href="#" class="site-card" data-url="https://hclips.com/search/1/?s=" style="background: #039be5; color: #fff;">HClips</a>
-    <a href="#" class="site-card" data-url="https://www.drtuber.com/search/videos/" style="background: #43a047; color: #fff;">DrTuber</a>
-    <a href="#" class="site-card" data-url="https://www.xnxx.com/search/" style="background: #000090; color: #fff;">XNXX</a>
-    <a href="#" class="site-card" data-url="https://www.heavy-r.com/search/" data-end=".html" style="background: #455a64; color: #fff;">Heavy-R</a>
-  </div>
+  <div class="grid" id="grid"></div>
 
   <script>
-    // Array of solo-themed keywords to use in search
-const soloSearchKeywords = [
-  "solo", "female solo", "masturbation", "lesbian", "dildo solo",
-  "ass", "boobs", "blowjob", "pmv", "bwc",
-  "bwc solo", "jerk off instructions", "anal", "threesome", "creampie",
-  "handjob", "footjob", "pov", "cowgirl", "doggystyle",
-  "milf", "teen", "amateur", "public", "shower",
-  "lingerie", "stockings", "femdom", "orgasm", "squirt",
-  "deepthroat", "facesitting", "rimming", "bondage", "vibrator",
-  "oil", "massage", "striptease", "twerk", "lapdance",
-  "gangbang", "double penetration", "titjob", "fingering", "cameltoe",
-  "upskirt", "wet", "tease", "gagging", "spit"
-];
+    const soloSearchKeywords = [
+      "solo", "female solo", "masturbation", "lesbian", "dildo solo",
+      "ass", "boobs", "blowjob", "pmv", "bwc",
+      "bwc solo", "jerk off instructions", "anal", "threesome", "creampie",
+      "handjob", "footjob", "pov", "cowgirl", "doggystyle",
+      "milf", "teen", "amateur", "public", "shower",
+      "lingerie", "stockings", "femdom", "orgasm", "squirt",
+      "deepthroat", "facesitting", "rimming", "bondage", "vibrator",
+      "oil", "massage", "striptease", "twerk", "lapdance",
+      "gangbang", "double penetration", "titjob", "fingering", "cameltoe",
+      "upskirt", "wet", "tease", "gagging", "spit"
+    ];
 
-    // Add click event listeners to each site card
-    document.querySelectorAll('.site-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor behavior
+    const sites = [
+      { label: "Pornhub", url: "https://www.pornhub.com/video/search?search=", bg: "#ff9900", color: "#000" },
+      { label: "XVideos", url: "https://www.xvideos.com/?k=", bg: "#b71c1c", color: "#fff" },
+      { label: "xHamster", url: "https://xhamster.com/search.php?q=", bg: "#2c2c2c", color: "#fff" },
+      { label: "RedTube", url: "https://www.redtube.com/?search=", bg: "#d32f2f", color: "#fff" },
+      { label: "YouPorn", url: "https://www.youporn.com/search/?query=", bg: "#e91e63", color: "#fff" },
+      { label: "SpankBang", url: "https://www.spankbang.com/s/", bg: "#000000", color: "#fff" },
+      { label: "Tube8", url: "https://www.tube8.com/searches.html/?q=", bg: "#1565c0", color: "#fff" },
+      { label: "Tnaflix", url: "https://www.tnaflix.com/search?what=", bg: "#c62828", color: "#fff" },
+      { label: "HClips", url: "https://hclips.com/search/1/?s=", bg: "#039be5", color: "#fff" },
+      { label: "DrTuber", url: "https://www.drtuber.com/search/videos/", bg: "#43a047", color: "#fff" },
+      { label: "XNXX", url: "https://www.xnxx.com/search/", bg: "#000090", color: "#fff" },
+      { label: "Heavy-R", url: "https://www.heavy-r.com/search/", end: ".html", bg: "#455a64", color: "#fff" }
+    ];
 
-        const base = card.dataset.url; // Base search URL for the site
-        const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)]; // Pick a random keyword
-        const encoded = encodeURIComponent(keyword); // Encode keyword for URL safety
-        const end = card.dataset.end || ""; // Optional URL suffix
+    // Shuffle the array using Fisher–Yates algorithm
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    shuffle(sites);
+
+    const grid = document.getElementById("grid");
+
+    // Create each button
+    sites.forEach(site => {
+      const a = document.createElement("a");
+      a.className = "site-card";
+      a.textContent = site.label;
+      a.style.background = site.bg;
+      a.style.color = site.color;
+      a.href = "#";
+      a.addEventListener("click", e => {
+        e.preventDefault();
+        const keyword = soloSearchKeywords[Math.floor(Math.random() * soloSearchKeywords.length)];
+        const encoded = encodeURIComponent(keyword);
+        const end = site.end || "";
         let finalUrl = "";
-
-        // Special handling for SpankBang URL format
-        if (base.includes("spankbang.com/s/")) {
-          finalUrl = `${base}${encoded}/?`;
+        if (site.url.includes("spankbang.com/s/")) {
+          finalUrl = `${site.url}${encoded}/?`;
         } else {
-          finalUrl = `${base}${encoded}${end}`;
+          finalUrl = `${site.url}${encoded}${end}`;
         }
-
-        // Open the final URL in a new tab
         window.open(finalUrl, '_blank');
       });
+      grid.appendChild(a);
     });
   </script>
 </body>
