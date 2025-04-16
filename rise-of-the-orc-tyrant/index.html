@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://crudekiss.itch.io/rise-of-the-orc-tyrant">
+  <!-- Fallback redirect for non-JS browsers, timed slightly later -->
+  <meta http-equiv="refresh" content="3.2; url=https://crudekiss.itch.io/rise-of-the-orc-tyrant">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting…</title>
   <style>
@@ -16,25 +17,37 @@
       align-items: center;
       justify-content: center;
       color: #fff;
-    }
-    #message {
-      animation: fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      font-family: system-ui, sans-serif;
+      font-size: 1.25rem;
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        window.location.href = "https://crudekiss.itch.io/rise-of-the-orc-tyrant";
-      }, 10);
-    });
-  </script>
 </head>
 <body>
-  <div id="message">Redirecting…</div>
+  <div id="message">Redirecting… [3.0s]</div>
+
+  <script>
+    const message = document.getElementById('message');
+    let timeLeft = 3.0;
+
+    const countdown = setInterval(() => {
+      timeLeft = +(timeLeft - 0.1).toFixed(1);
+
+      if (timeLeft <= 0.0) {
+        clearInterval(countdown);
+        message.textContent = ""; // Fully black screen
+      } else {
+        message.textContent = `Redirecting… [${timeLeft.toFixed(1)}s]`;
+      }
+
+      // Start redirect at 0.3s
+      if (timeLeft === 0.3) {
+        setTimeout(() => {
+          window.location.href = "https://crudekiss.itch.io/rise-of-the-orc-tyrant";
+        }, 0); // Start redirect instantly at 0.1s mark
+      }
+    }, 100);
+  </script>
+
   <noscript>
     <div style="text-align: center;">
       <a href="https://crudekiss.itch.io/rise-of-the-orc-tyrant" style="color: #0af;">Click here</a> if not redirected.
