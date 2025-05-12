@@ -8,6 +8,7 @@ const imagePaths = [
   './data/location/path1.jpg',
   './data/location/averhalcity1.jpg',
   './data/location/averhalcitydocks1.jpg',
+  './data/location/averhalcitydocksfishstore1.jpg',
   './data/location/averhalcitygate1.jpg',
   './data/location/averhalcitymarket1.jpg',
   './data/location/brothellobby1.jpg',
@@ -45,6 +46,7 @@ const imagePaths = [
   './data/nsfw/path_elf_collar1.jpg',
   './data/nsfw/path_elf_collar2.jpg',
 ];
+
 
 // Function to get just the filename from a path
 function getFileName(path) {
