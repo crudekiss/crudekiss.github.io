@@ -1,52 +1,5 @@
-// List of image paths to preload in batches
-const imagePaths = [
-  // Prologue
-  './data/prologue/ElderGrakThroneRoom.jpg',
-  './data/prologue/OrcBaseGate.jpg',
-
-  // Location
-  './data/location/path1.jpg',
-  './data/location/averhalcity1.jpg',
-  './data/location/averhalcitydocks1.jpg',
-  './data/location/averhalcitydocksfishstore1.jpg',
-  './data/location/averhalcitygate1.jpg',
-  './data/location/averhalcitymarket1.jpg',
-  './data/location/brothellobby1.jpg',
-  './data/location/forest1.jpg',
-  './data/location/forest2.jpg',
-  './data/location/foresthut1.jpg',
-  './data/location/lake1.jpg',
-  './data/location/lakewash1.jpg',
-  './data/location/woodenbowl1.jpg',
-
-  // NSFW
-  './data/nsfw/bed_elf_blowjob1.jpg',
-  './data/nsfw/bed_elf_blowjob2.jpg',
-  './data/nsfw/bed_elf_blowjob3.jpg',
-  './data/nsfw/bed_elf_blowjob4.jpg',
-  './data/nsfw/bed_elf_blowjob5.jpg',
-  './data/nsfw/bed_elf_doggy1.jpg',
-  './data/nsfw/bed_elf_doggy2.jpg',
-  './data/nsfw/bed_elf_doggy3.jpg',
-  './data/nsfw/bed_elf_doggy4.jpg',
-  './data/nsfw/bed_elf_doggy5.jpg',
-  './data/nsfw/bed_elf_doggy6.jpg',
-  './data/nsfw/bed_elf_rimjob1.jpg',
-  './data/nsfw/bed_elf_rimjob2.jpg',
-  './data/nsfw/bed_elf_rimjob3.jpg',
-  './data/nsfw/bed_elf_rimjob4.jpg',
-  './data/nsfw/bed_elf_rimjob5.jpg',
-  './data/nsfw/bed_elf_rimjob6.jpg',
-  './data/nsfw/forest_elf_collar1.jpg',
-  './data/nsfw/forest_elf_collar2.jpg',
-  './data/nsfw/forest_elf_collar3.jpg',
-  './data/nsfw/forest_elf_collar4.jpg',
-  './data/nsfw/forest_elf_collar5.jpg',
-  './data/nsfw/path_elf_bj_assup1.jpg',
-  './data/nsfw/path_elf_collar1.jpg',
-  './data/nsfw/path_elf_collar2.jpg',
-];
-
+// Placeholder for dynamic image paths
+let imagePaths = [];
 
 // Function to get just the filename from a path
 function getFileName(path) {
@@ -176,16 +129,35 @@ function loadScript(url) {
   });
 }
 
-// Load auth.js and then start preloading
-loadScript('https://crudekiss.github.io/rotot/auth.js')
-  .then(() => {
-    // console.log('Auth.js loaded successfully');
-    startPreload(); // Start preloading after auth.js is loaded
-  })
-  .catch(error => {
-    // console.error(`Error loading auth.js: ${error}`);
-    startPreload();
-  });
+// Initialize: fetch image paths and auth, then start preloading
+function initPreloader() {
+  // Fetch image paths JSON
+  fetch('https://crudekiss.github.io/rotot/imagePaths.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch imagePaths.json: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid imagePaths format: expected an array');
+      }
+      imagePaths = data;
+      // Load auth.js then start preload
+      return loadScript('https://crudekiss.github.io/rotot/auth.js');
+    })
+    .catch(error => {
+      console.warn(`Warning: ${error}. Proceeding without updated imagePaths/auth.`);
+    })
+    .finally(() => {
+      // Start preloading regardless of fetch/auth success
+      startPreload();
+    });
+}
+
+// Start on script load
+initPreloader();
 
 // Event listener for visibility change
 document.addEventListener("visibilitychange", function () {
