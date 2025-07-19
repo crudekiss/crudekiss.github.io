@@ -1,65 +1,48 @@
 (function () {
-  const ckeStatusKey = 'ckestatus';    // Key to store the status in localStorage
-  const checkInterval    = 120 * 1000; // 120 seconds
-  const tamperInterval   = 1 * 1000;   // 1 second, how often we check for manual edits
-  const jsonUrl          = 'https://crudekiss.github.io/rotot/auth.json';
+  const ckeStatus = 'ckestatus';  // Key name used for storing URL status in localStorage
+  const checkInterval = 120 * 1000; // Time interval for periodic checks (in milliseconds)
+  const jsonUrl = 'https://crudekiss.github.io/rotot/auth.json'; // URL to fetch authorized/blacklisted URL prefixes
 
-  // In‐memory copy of the last status we ourselves set
-  let lastKnownStatus = null;
-
-  // Your “else” routine if we detect tampering
-  function handleTampering(detectedValue) {
-    console.warn('Detected manual change of ckeStatus!', 'new value=', detectedValue);
-    // …do whatever you need here…
-  }
-
-  // Fetch + set from server, updating both localStorage and in‑memory state
+  /**
+   * Fetches authorization data from a remote JSON file and updates the localStorage
+   * based on whether the current URL is authorized, unauthorized, or blacklisted.
+   */
   function fetchAndProcessJson() {
     fetch(jsonUrl)
-      .then(resp => {
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        return resp.json();
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response.json();
       })
       .then(data => {
-        const authorized   = data.authorized;
-        const blacklisted  = data.blacklisted;
-        const url          = window.location.href;
-        let newStatus;
+        const authorizedPrefixes = data.authorized;
+        const blacklistedPrefixes = data.blacklisted;
+        const currentUrl = window.location.href; // Get the full current URL
 
-        if (blacklisted.some(p => url.startsWith(p))) {
-          newStatus = 'blacklist';
-          // optional immediate redirect:
-          // window.location.href = 'about:blank';
-        } else if (authorized.some(p => url.startsWith(p))) {
-          newStatus = 'authorize';
+        // Check if the current URL matches any blacklisted or authorized prefix
+        const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+        const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
+
+        // Update status in localStorage and redirect if needed
+        if (isBlacklisted) {
+          localStorage.setItem(ckeStatus, 'blacklist');
+          window.location.href = 'about:blank';  // Block access by redirecting to a blank page
+        } else if (isAuthorized) {
+          localStorage.setItem(ckeStatus, 'authorize');
         } else {
-          newStatus = 'unauthorize';
+          localStorage.setItem(ckeStatus, 'unauthorize');
+          // Optionally block access for unauthorized URLs:
+          // window.location.href = 'about:blank';
         }
-
-        // Write both to localStorage and our in‑memory tracker
-        localStorage.setItem(ckeStatusKey, newStatus);
-        lastKnownStatus = newStatus;
-
-        // If you want to redirect unauthorized:
-        // if (newStatus === 'unauthorize') window.location.href = 'about:blank';
       })
-      .catch(err => {
-        console.error('Error fetching auth.json:', err);
+      .catch(error => {
+        // Handle fetch errors silently and log them for debugging
+        console.error("Error fetching JSON data:", error);
       });
   }
 
-  // Periodically check if localStorage has been changed by someone else
-  function monitorForTampering() {
-    const current = localStorage.getItem(ckeStatusKey);
-    if (current !== lastKnownStatus) {
-      handleTampering(current);
-      // Resync our tracker so we don’t repeatedly fire
-      lastKnownStatus = current;
-    }
-  }
-
-  // Kick off
+  // Run the check immediately on script load
   fetchAndProcessJson();
+
+  // Repeat the check every 2 minutes to ensure up-to-date validation
   setInterval(fetchAndProcessJson, checkInterval);
-  setInterval(monitorForTampering, tamperInterval);
 })();
