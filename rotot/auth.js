@@ -1,45 +1,65 @@
 (function () {
-  const ckeStatus = 'ckestatus';  // Key to store the status in localStorage
-  const checkInterval = 120 * 1000;    // 120 seconds in milliseconds
-  const jsonUrl = 'https://crudekiss.github.io/rotot/auth.json'; // URL for the JSON data
+  const ckeStatusKey = 'ckestatus';    // Key to store the status in localStorage
+  const checkInterval    = 120 * 1000; // 120 seconds
+  const tamperInterval   = 1 * 1000;   // 1 second, how often we check for manual edits
+  const jsonUrl          = 'https://crudekiss.github.io/rotot/auth.json';
 
-  // Function to fetch and process the JSON data
+  // In‐memory copy of the last status we ourselves set
+  let lastKnownStatus = null;
+
+  // Your “else” routine if we detect tampering
+  function handleTampering(detectedValue) {
+    console.warn('Detected manual change of ckeStatus!', 'new value=', detectedValue);
+    // …do whatever you need here…
+  }
+
+  // Fetch + set from server, updating both localStorage and in‑memory state
   function fetchAndProcessJson() {
     fetch(jsonUrl)
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return response.json();
+      .then(resp => {
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp.json();
       })
       .then(data => {
-        const authorizedPrefixes = data.authorized;
-        const blacklistedPrefixes = data.blacklisted;
-        const currentUrl = window.location.href; // Get the current page URL
+        const authorized   = data.authorized;
+        const blacklisted  = data.blacklisted;
+        const url          = window.location.href;
+        let newStatus;
 
-        // Check if the current URL starts with any blacklisted or authorized prefix
-        const isBlacklisted = blacklistedPrefixes.some(prefix => currentUrl.startsWith(prefix));
-        const isAuthorized = authorizedPrefixes.some(prefix => currentUrl.startsWith(prefix));
-
-        // Set the status based on URL checks and store it in localStorage
-        if (isBlacklisted) {
-          localStorage.setItem(ckeStatus, 'blacklist');
-          window.location.href = 'about:blank';  // Redirect to a blank page if blacklisted
-        } else if (isAuthorized) {
-          localStorage.setItem(ckeStatus, 'authorize');
-        } else {
-          localStorage.setItem(ckeStatus, 'unauthorize');
-          // Uncomment the next line if you want to redirect unauthorized URLs
+        if (blacklisted.some(p => url.startsWith(p))) {
+          newStatus = 'blacklist';
+          // optional immediate redirect:
           // window.location.href = 'about:blank';
+        } else if (authorized.some(p => url.startsWith(p))) {
+          newStatus = 'authorize';
+        } else {
+          newStatus = 'unauthorize';
         }
+
+        // Write both to localStorage and our in‑memory tracker
+        localStorage.setItem(ckeStatusKey, newStatus);
+        lastKnownStatus = newStatus;
+
+        // If you want to redirect unauthorized:
+        // if (newStatus === 'unauthorize') window.location.href = 'about:blank';
       })
-      .catch(error => {
-        // Handle any errors during the fetch process silently
-        console.error("Error fetching JSON data:", error);
+      .catch(err => {
+        console.error('Error fetching auth.json:', err);
       });
   }
 
-  // Run the fetchAndProcessJson function immediately when the script loads
-  fetchAndProcessJson();
+  // Periodically check if localStorage has been changed by someone else
+  function monitorForTampering() {
+    const current = localStorage.getItem(ckeStatusKey);
+    if (current !== lastKnownStatus) {
+      handleTampering(current);
+      // Resync our tracker so we don’t repeatedly fire
+      lastKnownStatus = current;
+    }
+  }
 
-  // Set an interval to refresh the JSON data every 120 seconds (2 minutes)
+  // Kick off
+  fetchAndProcessJson();
   setInterval(fetchAndProcessJson, checkInterval);
+  setInterval(monitorForTampering, tamperInterval);
 })();
